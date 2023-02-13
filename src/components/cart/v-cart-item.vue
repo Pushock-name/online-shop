@@ -1,6 +1,6 @@
 <template lang="">
     <div class="v-cart-item">
-        <img :src="require('../assets/images/' + cart_item_data.image)" alt="img">
+        <img :src="require('../../assets/images/' + cart_item_data.image)" alt="img">
         <div class="v-cart-item__info">
             <p>{{cart_item_data.name}}</p>
             <p>Price: {{cart_item_data.price}}</p>
@@ -8,16 +8,22 @@
         </div>
         <div class="v-cart-item__quantity">
             <p>Quantity:</p>
-            {{cart_item_data.quantity}}
+            <span>
+                <span class="quatity__btn" @click="decrementItem">-</span>
+                {{cart_item_data.quantity}}
+                <span class="quatity__btn" @click="incrementItem">+</span>
+            </span>
         </div>
         <button 
             class="v-cart-item__btn"
-            @click="deleteFromCart">
+                @click="deleteFromCart"
+                >
             Delete
         </button>
     </div>
 </template>
 <script>
+
 export default {
     name: 'v-cart-item',
     props: {
@@ -29,14 +35,16 @@ export default {
         }
     },
     methods: {
+        decrementItem () {
+            this.$emit('decrementItem')
+        },
+        incrementItem () {
+            this.$emit('incrementItem')
+        },
         deleteFromCart() {
             this.$emit('deleteFromCart')
         }
-    },
-    mounted() {
-        this.$set(this.cart_item_data, 'quantity', 1)
     }
-
 }
 </script>
 <style lang="scss">
@@ -54,5 +62,10 @@ export default {
         &__btn {
             @extend %btn;
         }
+        .quatity__btn {
+            cursor: pointer;
+        }
     }
+
+    
 </style>
